@@ -1,0 +1,156 @@
+Plano de Execução do Projeto – ROTA CERTA
+1. Objetivo do Projeto
+
+Desenvolver o ROTA CERTA, um aplicativo mobile e plataforma web para preparação para concursos e progressão de carreira na PMESP, com funcionalidades de personalização algorítmica, gamificação e mentoria.
+O desenvolvimento será modular e dividido em fases, priorizando a entrega rápida de um MVP funcional e escalável.
+
+2. Estratégia de Implantação por Fases
+
+O desenvolvimento será dividido em 3 grandes fases dentro do MVP e depois evoluirá para expansão e consolidação.
+
+Fase 1 – Estruturação e Onboarding (Semanas 1 a 4)
+
+Objetivo: Criar a base técnica e o fluxo inicial do usuário.
+
+Entregas
+
+Infraestrutura e Backend
+
+Configuração de servidor em nuvem (AWS ou Firebase).
+
+Configuração de banco de dados escalável (PostgreSQL ou Firestore).
+
+Integração inicial de APIs para autenticação, dados e métricas.
+
+Autenticação e Segurança
+
+Cadastro e login com e-mail e senha.
+
+Integração com login social (Google e Apple).
+
+Termos de uso e política de privacidade.
+
+Onboarding Interativo
+
+Segmentação do usuário: Concurseiro ou Militar.
+
+Coleta de preferências iniciais (concursos, cargos, tempo disponível).
+
+Design Inicial
+
+Protótipo de alta fidelidade no Figma.
+
+Aplicação da identidade visual do ROTA CERTA.
+
+Prazos
+Atividade	Prazo
+Setup de infraestrutura	1 semana
+Criação de protótipo	2 semanas
+Fluxo de onboarding	1 semana
+Fase 2 – Banco de Questões e Simulados Inteligentes (Semanas 5 a 10)
+
+Objetivo: Disponibilizar o conteúdo principal para prática e aprendizado.
+
+Entregas
+
+Banco de Questões
+
+Upload inicial de questões comentadas.
+
+Filtros avançados: disciplina, banca, ano, tipo de prova e dificuldade.
+
+Indicação do percentual de acertos por questão.
+
+Simulados Inteligentes
+
+Geração de simulados com base no desempenho do usuário.
+
+Ajuste dinâmico da dificuldade.
+
+Histórico completo de simulados (acertos, erros, tempo gasto).
+
+Interface do Usuário
+
+Tela para seleção de questões.
+
+Tela para execução de simulados.
+
+Feedback visual com estatísticas imediatas.
+
+Prazos
+Atividade	Prazo
+Upload do banco de questões	2 semanas
+Desenvolvimento de simulados	3 semanas
+Testes de performance	1 semana
+Fase 3 – Dashboard e Cronograma Automático (Semanas 11 a 14)
+
+Objetivo: Permitir acompanhamento do progresso e gestão do estudo.
+
+Entregas
+
+Dashboard Unificado
+
+Gráficos de desempenho.
+
+Evolução semanal e mensal.
+
+Percentual de domínio por disciplina.
+
+Cronograma Automático
+
+Usuário informa disponibilidade semanal.
+
+Algoritmo monta plano de estudos personalizado.
+
+Integração com notificações push para lembrar de estudar.
+
+Relatórios Semanais
+
+Insights automáticos sobre pontos fracos.
+
+Recomendação de trilhas de estudo baseadas no desempenho.
+
+Prazos
+Atividade	Prazo
+Dashboard funcional	2 semanas
+Cronograma automático	1 semana
+Integração de relatórios	1 semana
+Fase 4 – Expansão e Gamificação (Após MVP – 6 meses)
+
+Objetivo: Aumentar o engajamento e retenção do usuário.
+
+Funcionalidades
+
+Trilhas de Estudo Personalizadas
+
+Sequências de módulos teóricos e práticos.
+
+Trilhas distintas para ingresso e promoções.
+
+Gamificação
+
+Badges, troféus e conquistas.
+
+Ranking regional e nacional.
+
+Missões diárias para motivação.
+
+Fase 5 – Consolidação e Comunidade (Após Expansão – 9 meses)
+
+Objetivo: Transformar o app em uma plataforma completa e social.
+
+Funcionalidades
+
+Comunidade e Mentoria
+
+Fóruns segmentados por concurso e posto.
+
+Sistema de matching entre candidatos e mentores.
+
+Grupos de estudo por geolocalização.
+
+Dashboard Avançado de Carreira
+
+Simulação do tempo estimado para promoção.
+
+Estimativa de aprovação baseada no desempenho.
