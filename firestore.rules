@@ -1,0 +1,68 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    function isValidUser() {
+      return isAuthenticated() && request.auth.uid != null;
+    }
+    
+    // Users collection - users can only read/write their own data
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+    
+    // User profiles collection - users can only access their own profile
+    match /userProfiles/{profileId} {
+      allow read, write: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+    }
+    
+    // Questions collection - authenticated users can read, only admins can write
+    match /questions/{questionId} {
+      allow read: if isAuthenticated();
+      // For now, allow authenticated users to create questions
+      // In production, you might want to restrict this to admin users
+      allow create, update: if isAuthenticated();
+      allow delete: if false; // Prevent deletion for data integrity
+    }
+    
+    // Simulados collection - users can only access their own simulados
+    match /simulados/{simuladoId} {
+      allow read, write: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+    }
+    
+    // User answers collection - users can only access their own answers
+    match /userAnswers/{answerId} {
+      allow read, write: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+    }
+    
+    // User stats collection - users can only access their own stats
+    match /userStats/{statsId} {
+      allow read, write: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+    }
+    
+    // Default deny rule for any other documents
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

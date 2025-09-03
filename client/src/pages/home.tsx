@@ -1,43 +1,40 @@
 import { useAuth } from "@/hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { LogoutButton } from "@/components/LogoutButton";
 import { useLocation } from "wouter";
 import { BarChart3, Calendar, Trophy, User, Target, Clock, Award, BookOpen, TrendingUp } from "lucide-react";
 
 export default function Home() {
-  const { user } = useAuth();
+  const { user: userData, isLoading } = useAuth();
   const [, setLocation] = useLocation();
 
-  const { data: userData } = useQuery<{
-    id: string;
-    email?: string;
-    firstName?: string;
-    lastName?: string;
-    profileImageUrl?: string;
-    profile?: {
-      userType: "concurseiro" | "militar";
-      goals: string[];
-      weeklyHours: string;
-      studyTimes: string[];
-      subjects: string[];
-      onboardingCompleted: boolean;
-    } | null;
-    hasCompletedOnboarding: boolean;
-  }>({
-    queryKey: ["/api/auth/user"],
-    retry: false,
-  });
+  // Controlled redirect to onboarding if not completed
+  useEffect(() => {
+    if (!isLoading && userData && !userData.hasCompletedOnboarding) {
+      setLocation("/onboarding");
+    }
+  }, [userData, isLoading, setLocation]);
 
-  // If user hasn't completed onboarding, redirect to onboarding
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if redirecting to onboarding
   if (userData && !userData.hasCompletedOnboarding) {
-    setLocation("/onboarding");
     return null;
   }
 
-  const handleLogout = () => {
-    window.location.href = "/api/logout";
-  };
+
 
   const getInitials = (firstName?: string, lastName?: string) => {
     if (!firstName && !lastName) return "U";
@@ -72,9 +69,7 @@ export default function Home() {
                   {getInitials(userData?.firstName, userData?.lastName)}
                 </span>
               </div>
-              <Button variant="outline" onClick={handleLogout} data-testid="button-logout">
-                Sair
-              </Button>
+              <LogoutButton />
             </div>
           </div>
         </div>
@@ -130,7 +125,15 @@ export default function Home() {
                     {userData?.profile?.weeklyHours || "Não definido"}
                   </span>
                 </div>
-                <Button className="w-full" variant="secondary" data-testid="button-start-study">
+                <Button 
+                  className="w-full" 
+                  variant="secondary" 
+                  onClick={() => {
+                    // TODO: Implementar início de sessão de estudo
+                    alert('Funcionalidade de estudo em desenvolvimento');
+                  }}
+                  data-testid="button-start-study"
+                >
                   Começar Estudo
                 </Button>
               </div>
@@ -196,8 +199,8 @@ export default function Home() {
               variant="outline" 
               className="h-auto flex-col py-4" 
               onClick={() => {
-                // TODO: Navigate to statistics page
-                console.log('Navigate to statistics');
+                // TODO: Implementar página de estatísticas
+                alert('Página de estatísticas em desenvolvimento');
               }}
               data-testid="button-relatorios"
             >
@@ -207,7 +210,15 @@ export default function Home() {
               <span className="text-sm font-medium">Estatísticas</span>
             </Button>
 
-            <Button variant="outline" className="h-auto flex-col py-4" data-testid="button-perfil">
+            <Button 
+              variant="outline" 
+              className="h-auto flex-col py-4" 
+              onClick={() => {
+                // TODO: Implementar página de perfil
+                alert('Página de perfil em desenvolvimento');
+              }}
+              data-testid="button-perfil"
+            >
               <div className="w-8 h-8 bg-chart-3/10 rounded-full mb-2 flex items-center justify-center">
                 <User className="w-4 h-4 text-chart-3" />
               </div>

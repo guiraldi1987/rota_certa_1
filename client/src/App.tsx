@@ -12,20 +12,16 @@ import Simulados from "@/pages/simulados";
 import NotFound from "@/pages/not-found";
 
 function Router() {
-  const { isAuthenticated, isLoading } = useAuth();
+  // Autenticação temporariamente desabilitada para desenvolvimento
+  // const { isAuthenticated, isLoading } = useAuth();
 
   return (
     <Switch>
-      {isLoading || !isAuthenticated ? (
-        <Route path="/" component={Landing} />
-      ) : (
-        <>
-          <Route path="/" component={Home} />
-          <Route path="/onboarding" component={Onboarding} />
-          <Route path="/questions" component={Questions} />
-          <Route path="/simulados" component={Simulados} />
-        </>
-      )}
+      <Route path="/" component={Home} />
+      <Route path="/landing" component={Landing} />
+      <Route path="/onboarding" component={Onboarding} />
+      <Route path="/questions" component={Questions} />
+      <Route path="/simulados" component={Simulados} />
       <Route component={NotFound} />
     </Switch>
   );
