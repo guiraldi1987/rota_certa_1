@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LogoutButton } from "@/components/LogoutButton";
 import { useLocation } from "wouter";
+import { getInitials } from "@/lib/utils";
 import { BarChart3, Calendar, Trophy, User, Target, Clock, Award, BookOpen, TrendingUp } from "lucide-react";
 
 export default function Home() {
@@ -33,13 +34,6 @@ export default function Home() {
   if (userData && !userData.hasCompletedOnboarding) {
     return null;
   }
-
-
-
-  const getInitials = (firstName?: string, lastName?: string) => {
-    if (!firstName && !lastName) return "U";
-    return `${firstName?.[0] || ""}${lastName?.[0] || ""}`.toUpperCase();
-  };
 
   return (
     <div className="min-h-screen bg-background">

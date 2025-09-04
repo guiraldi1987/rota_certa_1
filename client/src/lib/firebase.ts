@@ -5,14 +5,19 @@ import { getAnalytics } from 'firebase/analytics';
 
 // Configuração do Firebase para o cliente
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyAn-mUnj5tF51ZHjrfsXghvSwlhPdERdec",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "rotacerta-44aef.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "rotacerta-44aef",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "rotacerta-44aef.firebasestorage.app",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "164967131364",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:164967131364:web:9fba0fc0ebf5a3070be4f1",
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-V6NG7L232R"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
+
+// Validar se todas as variáveis de ambiente necessárias estão definidas
+if (!firebaseConfig.apiKey || !firebaseConfig.authDomain || !firebaseConfig.projectId) {
+  throw new Error('Firebase configuration is incomplete. Please check your environment variables.');
+}
 
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);

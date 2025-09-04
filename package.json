@@ -13,6 +13,8 @@
     "firebase:deploy": "firebase deploy",
     "firebase:deploy:rules": "firebase deploy --only firestore:rules",
     "firebase:deploy:indexes": "firebase deploy --only firestore:indexes",
+    "firebase:init": "node scripts/init-firestore.js",
+    "firebase:setup": "npm run firebase:deploy:rules && npm run firebase:deploy:indexes && npm run firebase:init",
     "dev:firebase": "concurrently \"firebase emulators:start\" \"npm run dev\""
   },
   "dependencies": {

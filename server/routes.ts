@@ -10,7 +10,6 @@ import {
   type Question,
   type Simulado,
 } from "@shared/firestore-schema";
-import { z } from "zod";
 import { db, auth } from './firebase';
 import { Timestamp } from 'firebase-admin/firestore';
 

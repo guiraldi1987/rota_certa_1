@@ -22,11 +22,14 @@ interface AuthUser {
 export function useFirebaseAuth() {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: User | null) => {
+      console.log('🔍 [DEBUG] onAuthStateChanged disparado:', firebaseUser ? 'usuário logado' : 'usuário deslogado');
+      setIsLoading(true);
+      
       if (firebaseUser) {
+        console.log('🔍 [DEBUG] onAuthStateChanged: Usuário encontrado:', firebaseUser.uid);
         const authUser: AuthUser = {
           uid: firebaseUser.uid,
           email: firebaseUser.email!,
@@ -35,20 +38,23 @@ export function useFirebaseAuth() {
         };
         
         setUser(authUser);
-        setIsAuthenticated(true);
         
         // Send ID token to backend for session creation
         try {
+          console.log('🔍 [DEBUG] onAuthStateChanged: Enviando token para backend');
           const idToken = await firebaseUser.getIdToken();
           await apiRequest('POST', '/api/auth/login', { idToken });
+          console.log('✅ [DEBUG] onAuthStateChanged: Token enviado com sucesso');
         } catch (error) {
-          console.error('Error sending token to backend:', error);
+          console.error('❌ [DEBUG] onAuthStateChanged: Erro ao enviar token:', error);
         }
       } else {
+        console.log('🔍 [DEBUG] onAuthStateChanged: Nenhum usuário, limpando estado');
         setUser(null);
-        setIsAuthenticated(false);
       }
+      
       setIsLoading(false);
+      console.log('🔍 [DEBUG] onAuthStateChanged: Loading finalizado');
     });
 
     return () => unsubscribe();
@@ -56,7 +62,6 @@ export function useFirebaseAuth() {
 
   const signInWithGoogle = async () => {
     try {
-      setIsLoading(true);
       const provider = new GoogleAuthProvider();
       provider.addScope('email');
       provider.addScope('profile');
@@ -68,15 +73,11 @@ export function useFirebaseAuth() {
     } catch (error) {
       console.error('Error signing in with Google:', error);
       throw error;
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const signOut = async () => {
     try {
-      setIsLoading(true);
-      
       // Sign out from Firebase
       await firebaseSignOut(auth);
       
@@ -87,47 +88,49 @@ export function useFirebaseAuth() {
         console.error('Error notifying backend of logout:', error);
       }
       
-      setUser(null);
-      setIsAuthenticated(false);
+      // User state will be updated by onAuthStateChanged
     } catch (error) {
       console.error('Error signing out:', error);
       throw error;
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const signInWithEmail = async (email: string, password: string) => {
     try {
-      setIsLoading(true);
       const result = await signInWithEmailAndPassword(auth, email, password);
       return result.user;
     } catch (error) {
       console.error('Error signing in with email:', error);
       throw error;
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const registerWithEmail = async (email: string, password: string, displayName: string) => {
     try {
-      setIsLoading(true);
+      console.log('🔍 [DEBUG] useFirebaseAuth: Iniciando createUserWithEmailAndPassword');
+      console.log('🔍 [DEBUG] useFirebaseAuth: Email:', email);
+      console.log('🔍 [DEBUG] useFirebaseAuth: DisplayName:', displayName);
+      
       const result = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('✅ [DEBUG] useFirebaseAuth: Usuário criado com sucesso:', result.user.uid);
+      
+      console.log('🔍 [DEBUG] useFirebaseAuth: Atualizando perfil do usuário');
       await updateProfile(result.user, { displayName });
+      console.log('✅ [DEBUG] useFirebaseAuth: Perfil atualizado com sucesso');
+      
       return result.user;
     } catch (error) {
-      console.error('Error registering with email:', error);
+      console.error('❌ [DEBUG] useFirebaseAuth: Erro no registro:', error);
+      console.error('❌ [DEBUG] useFirebaseAuth: Código do erro:', (error as any)?.code);
+      console.error('❌ [DEBUG] useFirebaseAuth: Mensagem do erro:', (error as any)?.message);
       throw error;
-    } finally {
-      setIsLoading(false);
     }
   };
 
   return {
     user,
     isLoading,
-    isAuthenticated,
+    isAuthenticated: !!user,
     signInWithGoogle,
     signInWithEmail,
     registerWithEmail,
